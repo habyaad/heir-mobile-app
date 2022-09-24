@@ -47,11 +47,17 @@ flutter:
   assets:
     - assets/images/
   #   - images/a_dot_ham.jpeg
-
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: HeirAppIcons
+      fonts:
+        - asset: fonts/HeirAppIcons.ttf
+    - family: Gilroy
+      fonts:
+        - asset: fonts/Gilroy-Medium.ttf
+        - asset: fonts/Gilroy-Bold.ttf
+          weight: 700
+        - asset: fonts/Gilroy-Light.ttf
+          weight: 300
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
