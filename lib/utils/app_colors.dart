@@ -16,6 +16,6 @@ class AppColors{
   static const Color tertiaryColor3 = Color(0xFFA0A0A0);
   static const Color tertiaryColor4 = Color(0xFFC3C3C3);
 
-
+  static const Color textBlack = Color(0xFF303036);
 
 }

@@ -24,6 +24,7 @@ dependencies:
   stacked_services: ^0.9.5
   auto_route: ^5.0.1
   flutter_svg: ^1.1.5
+  money_formatter: ^0.0.3
 
 
 
@@ -60,6 +61,9 @@ flutter:
           weight: 700
         - asset: fonts/Gilroy-Light.ttf
           weight: 300
+    - family: OcrAExtended
+      fonts:
+        - asset: fonts/ocraextended.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
