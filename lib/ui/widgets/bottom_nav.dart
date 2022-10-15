@@ -14,6 +14,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(parent.name);
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(
@@ -42,20 +43,20 @@ class _BottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List<Widget>.generate(NavItem.navItems.length, (index) {
-          bool _isActive = NavItem.navItems[index].identifier == parent;
+          bool isActive = NavItem.navItems[index].identifier == parent;
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () => _isActive?
+                onTap: () => isActive?
                     null
                     : context.router.pushNamed(NavItem.navItems[index].route),
                 child: SvgPicture.asset(
-                  _isActive
+                  isActive
                       ? 'assets/svgs/${NavItem.navItems[index].identifier.name}_active.svg'
                       : 'assets/svgs/${NavItem.navItems[index].identifier.name}.svg',
-                  color: _isActive
+                  color: isActive
                       ? AppColors.primaryColor1
                       : AppColors.tertiaryColor2,
                   height: 32,
@@ -71,7 +72,7 @@ class _BottomNavBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   color:
-                      _isActive ? AppColors.primaryColor1 : Colors.transparent,
+                      isActive ? AppColors.primaryColor1 : Colors.transparent,
                 ),
               )
             ],
@@ -91,7 +92,7 @@ class NavItem {
   static List<NavItem> navItems = [home, card, statistics, settings];
 
   static NavItem home = NavItem(
-    route: '/home-screen',
+    route: '/',
     identifier: NavIdentifier.home,
   );
   static NavItem card = NavItem(
