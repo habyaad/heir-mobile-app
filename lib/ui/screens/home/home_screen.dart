@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
+import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:stacked/stacked.dart';
 import '../../../heir_app_icons_icons.dart';
 import '../../../models/asset.dart';
@@ -10,6 +11,8 @@ import '../../../utils/app_colors.dart';
 import '../../../utils/app_router/app_router.gr.dart';
 import '../../../utils/app_text_styles.dart';
 import '../../widgets/bottom_nav.dart';
+import '../../widgets/currency_popup_menu.dart';
+import '../../widgets/detail_tile.dart';
 import '../../widgets/general_button.dart';
 import 'home_screen_model.dart';
 
@@ -77,13 +80,13 @@ class HomeScreen extends StatelessWidget {
                             'Net Worth',
                             style: AppTextStyles.largeTitleBold(),
                           ),
-                          _CurrencyPopUpMenu()
+                          CurrencyPopUpMenu()
                         ],
                       ),
                       const SizedBox(
                         height: 12,
                       ),
-                      const _AtmCard(),
+                      const _NetWorthCard(),
                       const SizedBox(
                         height: 16,
                       ),
@@ -106,7 +109,10 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(
                         height: 32.75,
                       ),
-                      const _TopAssetCategory()
+                      const _TopAssetCategory(),
+                      SizedBox(
+                        height: 16.36,
+                      )
                     ],
                   ),
                 ),
@@ -116,78 +122,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _CurrencyPopUpMenu extends StatefulWidget {
-  _CurrencyPopUpMenu({Key? key}) : super(key: key);
-
-  @override
-  State<_CurrencyPopUpMenu> createState() => _CurrencyPopUpMenuState();
-}
-
-class _CurrencyPopUpMenuState extends State<_CurrencyPopUpMenu> {
-  List<String> currency = ['NGN', 'USD', 'EUR', 'DNR'];
-
-  String selected = 'NGN';
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-        constraints: const BoxConstraints(maxWidth: 90, maxHeight: 90),
-        padding: EdgeInsets.zero,
-        position: PopupMenuPosition.under,
-        itemBuilder: (context) => [
-              PopupMenuItem(
-                  padding: EdgeInsets.zero,
-                  child: Container(
-                      padding: const EdgeInsets.all(6),
-                      height: 80,
-                      width: 85,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: currency.length,
-                        itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                context.router.pop();
-                                selected = currency[index];
-                              });
-                            },
-                            child: Text(currency[index])),
-                        separatorBuilder: (ctx, i) => const Divider(),
-                      ))),
-            ],
-        child: Container(
-          height: 18.69,
-          width: 53.87,
-          decoration: BoxDecoration(
-              color: const Color(0xFFFAFAFA),
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: AppColors.tertiaryColor1, width: 0.3),
-              boxShadow: [
-                BoxShadow(
-                    color: AppColors.textBlack.withOpacity(.05),
-                    offset: const Offset(0, 6),
-                    blurRadius: 16)
-              ]),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                selected,
-                style: AppTextStyles.subHeadlineRegular(),
-              ),
-              const Icon(
-                HeirAppIcons.down_arrow,
-                size: 5,
-              )
-            ],
-          ),
-        ));
-  }
-}
-
-class _AtmCard extends StatelessWidget {
-  const _AtmCard({Key? key}) : super(key: key);
+class _NetWorthCard extends StatelessWidget {
+  const _NetWorthCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -200,31 +136,31 @@ class _AtmCard extends StatelessWidget {
               color: AppColors.primaryColor1,
               borderRadius: BorderRadius.circular(16)),
         ),
+        SizedBox(
+          height: 200,
+          width: 366,
+          child: ClipRect(
+            child: ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+                child: Image.asset(
+                  'assets/images/heir-bg.png',
+                  fit: BoxFit.scaleDown,
+                )),
+          ),
+        ),
         Container(
           height: 200,
           width: 366,
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    const Color(0xFFEEAB9780).withOpacity(0.5),
+                    const Color(0xFFEEAB97).withOpacity(0.5),
                     Colors.white.withOpacity(0),
                   ],
                   begin: Alignment.centerRight,
                   end: Alignment.centerLeft,
                   transform: const GradientRotation(101)),
               borderRadius: BorderRadius.circular(16)),
-          child: Center(
-              child: SizedBox(
-                  width: 150,
-                  height: 150,
-                  child: ClipRRect(
-                    child: ImageFiltered(
-                        imageFilter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
-                        child: Image.asset(
-                          'assets/images/heir-bg.png',
-                          fit: BoxFit.contain,
-                        )),
-                  ))),
         ),
         Container(
           height: 200,
@@ -323,98 +259,47 @@ class _TopAssetCategory extends StatelessWidget {
         ),
         ListView.separated(
             shrinkWrap: true,
-            itemBuilder: (context, index) => _AssetTile(
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => DetailTile(
                   amount: Asset.demoAssets[index].getAssetAmount,
-                  assetName: Asset.demoAssets[index].assetName,
-                  assetCategory: Asset.demoAssets[index].assetCategory.name,
-                  assetIcon: Asset.demoAssets[index].assetIcon,
+                  detailTitle: Asset.demoAssets[index].assetName,
+                  detailSubtitle: Asset.demoAssets[index].assetCategory.name,
+                  leadingWidget: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(2, -2),
+                              blurRadius: 4,
+                              inset: true,
+                              color: Colors.black.withOpacity(.25)),
+                          BoxShadow(
+                              offset: Offset(-2, 2),
+                              blurRadius: 4,
+                              inset: true,
+                              color: Colors.white.withOpacity(.25))
+                        ],
+                        gradient: LinearGradient(
+                            colors: [
+                              const Color(0xFF9EB5DA).withOpacity(1),
+                              const Color(0xFFEEAB97).withOpacity(.1)
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight)),
+                    child: Center(
+                        child: Icon(
+                      Asset.demoAssets[index].assetIcon,
+                      color: AppColors.tertiaryColor1,
+                    )),
+                  ),
                 ),
             separatorBuilder: (ctx, i) => const SizedBox(
                   height: 12,
                 ),
             itemCount: Asset.demoAssets.length)
       ],
-    );
-  }
-}
-
-class _AssetTile extends StatelessWidget {
-  final String amount;
-  final String assetName;
-  final String assetCategory;
-  final IconData assetIcon;
-
-  const _AssetTile(
-      {Key? key,
-      required this.amount,
-      required this.assetName,
-      required this.assetCategory,
-      required this.assetIcon})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      height: 76,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF5C5C5C), width: 0.15),
-          boxShadow: [
-            BoxShadow(
-                color: AppColors.textBlack.withOpacity(.05),
-                offset: const Offset(0, 6),
-                blurRadius: 16)
-          ]),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(colors: [
-                        const Color(0xFF9EB5DA).withOpacity(1),
-                        const Color(0xFFEEAB97).withOpacity(.1)
-                      ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-                  child: Center(
-                      child: Icon(
-                    assetIcon,
-                    color: AppColors.tertiaryColor1,
-                  )),
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      assetName,
-                      style: AppTextStyles.title2Medium(),
-                    ),
-                    Text(assetCategory,
-                        style: AppTextStyles.subHeadlineRegular())
-                  ],
-                )
-              ],
-            ),
-          ),
-          Text(
-            amount,
-            style: AppTextStyles.headlineRegular()
-                .copyWith(color: AppColors.tertiaryColor1),
-          )
-        ],
-      ),
     );
   }
 }
