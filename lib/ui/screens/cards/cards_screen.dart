@@ -1,27 +1,366 @@
+import 'dart:ui';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../heir_app_icons_icons.dart';
+import '../../../models/user.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_text_styles.dart';
 import '../../widgets/bottom_nav.dart';
+import '../../widgets/currency_popup_menu.dart';
 import 'cards_model.dart';
 
 class CardScreen extends StatelessWidget {
-    const CardScreen ({Key? key}) : super(key: key);
+  const CardScreen({Key? key}) : super(key: key);
 
-    @override
-    Widget build(BuildContext context) {
-        return ViewModelBuilder<CardScreenModel>.reactive(
-          builder: (context, model, child) => Scaffold(
-              body: BottomNavBar(
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<CardScreenModel>.reactive(
+        builder: (context, model, child) => Scaffold(
+            body: BottomNavBar(
                 parent: NavIdentifier.card,
-                child: Column(
+                child: SingleChildScrollView(
+                    child: Column(
                   children: [
-                    SizedBox(height: 60,),
-                    Text('cards screen', style: AppTextStyles.largeTitleBold(),),
+                    Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 60,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Cards',
+                                  style: AppTextStyles.largeTitleBold(),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      HeirAppIcons.fi_rr_cross_circle,
+                                      color: AppColors.tertiaryColor1,
+                                      size: 16,
+                                    ),
+                                    const SizedBox(
+                                      width: 9,
+                                    ),
+                                    Text(
+                                      'Add Card',
+                                      style: AppTextStyles.headlineRegular()
+                                          .copyWith(
+                                              color: AppColors.tertiaryColor1),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 24,
+                            ),
+                            Text(
+                              'Total Balance',
+                              style: AppTextStyles.headlineRegular(),
+                            ),
+                            const SizedBox(
+                              height: 3,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('€${User.demoUser.getCardBalance}',
+                                    style: AppTextStyles.title1Medium()),
+                                CurrencyPopUpMenu()
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 13,
+                            ),
+                          ],
+                        )),
+                    const _AtmCardCarousel(),
+                    const SizedBox(
+                      height: 15.68,
+                    ),
+                    Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 70,
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (c, i) {
+
+                                    return model.buttons[i];
+                                  },
+                                  separatorBuilder: (c, i) => const SizedBox(
+                                        width: 33,
+                                      ),
+                                  itemCount: model.buttons.length),
+                            ),
+                            const SizedBox(height: 32,),
+                            const _TransactionCategory()
+                          ],
+                        )),
                   ],
+                )))),
+        viewModelBuilder: () => CardScreenModel());
+  }
+}
+
+class _AtmCard extends StatelessWidget {
+  const _AtmCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        SizedBox(
+          height: 200,
+          width: 366,
+          child: Container(
+            height: 172.63,
+            width: 337.5,
+            decoration: BoxDecoration(
+                color: AppColors.primaryColor1,
+                borderRadius: BorderRadius.circular(16)),
+            child: Align(
+              child: Container(
+                height: 76.37,
+                width: 130.93,
+                child: Image.asset(
+                  'assets/images/mastercard-logo.png',
+                  fit: BoxFit.contain,
                 ),
-              )),
-          viewModelBuilder: () => CardScreenModel()
-         );
-       }
-      }
+              ),
+            ),
+          ),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7.5, sigmaY: 7.5),
+            child: Container(
+              height: 200,
+              width: 366,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    const Color(0xFFEB001B).withOpacity(.3),
+                    const Color(0xFFF79E1B).withOpacity(.3),
+                  ], transform: const GradientRotation(101)),
+                  borderRadius: BorderRadius.circular(16)),
+            ),
+          ),
+        ),
+        Container(
+          height: 200,
+          width: 366,
+          padding:
+              const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 21),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    'assets/images/mastercard-logo.png',
+                  ),
+                  Text('Debit',
+                      style: AppTextStyles.ocrTextStyle()
+                          .copyWith(fontSize: 14, color: Colors.white)),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('**** 0329',
+                      style: AppTextStyles.ocrTextStyle()
+                          .copyWith(fontSize: 14, color: Colors.white)),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Balance',
+                          style: AppTextStyles.ocrTextStyle()
+                              .copyWith(fontSize: 14)),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text('€${User.demoUser.getAssetValue}',
+                          style: AppTextStyles.ocrTextStyle()
+                              .copyWith(fontSize: 18))
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text('VALID \nTHRU',
+                          style: AppTextStyles.ocrTextStyle()
+                              .copyWith(fontSize: 8)),
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      Text('03/24',
+                          style: AppTextStyles.ocrTextStyle()
+                              .copyWith(fontSize: 14))
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _AtmCardCarousel extends StatefulWidget {
+  const _AtmCardCarousel({Key? key}) : super(key: key);
+
+  @override
+  State<_AtmCardCarousel> createState() => _AtmCardCarouselState();
+}
+
+class _AtmCardCarouselState extends State<_AtmCardCarousel> {
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+  final List atms = [const _AtmCard(), const _AtmCard(), const _AtmCard()];
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(left: 24),
+        child: Column(
+          children: [
+            CarouselSlider.builder(
+                itemCount: 3,
+                carouselController: _controller,
+                itemBuilder:
+                    (BuildContext context, int itemIndex, int pageViewIndex) =>
+                        atms[itemIndex],
+                options: CarouselOptions(
+                    autoPlay: false,
+                    enlargeCenterPage: false,
+                    viewportFraction: 1,
+                    aspectRatio: 2.0,
+                    initialPage: 0,
+                    disableCenter: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    },
+                    enableInfiniteScroll: false)),
+            const SizedBox(
+              height: 16.32,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: atms.asMap().entries.map((entry) {
+                return GestureDetector(
+                  onTap: () => _controller.animateToPage(entry.key),
+                  child: Container(
+                      width: _current == entry.key ? 24 : 4.0,
+                      height: 4.0,
+                      margin: const EdgeInsets.only(right: 6.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: _current == entry.key
+                              ? AppColors.secondaryColor1
+                              : const Color(0xffFD5522).withOpacity(.2))),
+                );
+              }).toList(),
+            ),
+          ],
+        ));
+  }
+}
+
+class _TransactionCategory extends StatelessWidget {
+  const _TransactionCategory({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Transactions',
+              style: AppTextStyles.title1Medium(),
+            ),
+            Text(
+              'See All',
+              style: AppTextStyles.subHeadlineRegular()
+                  .copyWith(color: AppColors.tertiaryColor1),
+            )
+          ],
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+/*
+        ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) => DetailTile(
+              amount: Asset.demoAssets[index].getAssetAmount,
+              detailTitle: Asset.demoAssets[index].assetName,
+              detailSubtitle: Asset.demoAssets[index].assetCategory.name,
+              leadingWidget: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                          offset: Offset(2, -2),
+                          blurRadius: 4,
+                          inset: true,
+                          color: Colors.black.withOpacity(.25)),
+                      BoxShadow(
+                          offset: Offset(-2, 2),
+                          blurRadius: 4,
+                          inset: true,
+                          color: Colors.white.withOpacity(.25))
+                    ],
+                    gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF9EB5DA).withOpacity(1),
+                          const Color(0xFFEEAB97).withOpacity(.1)
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight)),
+                child: Center(
+                    child: Icon(
+                      Asset.demoAssets[index].assetIcon,
+                      color: AppColors.tertiaryColor1,
+                    )),
+              ),
+            ),
+            separatorBuilder: (ctx, i) => const SizedBox(
+              height: 12,
+            ),
+            itemCount: Asset.demoAssets.length)
+*/
+      ],
+    );
+  }
+}
