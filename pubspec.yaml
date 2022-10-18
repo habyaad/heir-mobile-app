@@ -82,4 +82,4 @@ flutter_native_splash:
     image: assets/images/splash-image.png
     icon_background_color: "#ffffff"
   ios: true
-  anndroid: true
+  android: true
