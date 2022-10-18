@@ -1,14 +1,10 @@
 import 'dart:ui';
-
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:stacked/stacked.dart';
-import '../../../heir_app_icons_icons.dart';
 import '../../../models/asset.dart';
 import '../../../models/user.dart';
 import '../../../utils/app_colors.dart';
-import '../../../utils/app_router/app_router.gr.dart';
 import '../../../utils/app_text_styles.dart';
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/currency_popup_menu.dart';
@@ -110,7 +106,7 @@ class HomeScreen extends StatelessWidget {
                         height: 32.75,
                       ),
                       const _TopAssetCategory(),
-                      SizedBox(
+                      const SizedBox(
                         height: 16.36,
                       )
                     ],
