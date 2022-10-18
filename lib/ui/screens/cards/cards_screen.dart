@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../heir_app_icons_icons.dart';
+import '../../../models/transaction.dart';
 import '../../../models/user.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_text_styles.dart';
 import '../../widgets/bottom_nav.dart';
 import '../../widgets/currency_popup_menu.dart';
+import '../../widgets/custom_paints/calendar_paint.dart';
+import '../../widgets/detail_tile.dart';
 import 'cards_model.dart';
 
 class CardScreen extends StatelessWidget {
@@ -95,10 +98,9 @@ class CardScreen extends StatelessWidget {
                             SizedBox(
                               height: 70,
                               child: ListView.separated(
-                                shrinkWrap: true,
+                                  shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (c, i) {
-
                                     return model.buttons[i];
                                   },
                                   separatorBuilder: (c, i) => const SizedBox(
@@ -106,8 +108,15 @@ class CardScreen extends StatelessWidget {
                                       ),
                                   itemCount: model.buttons.length),
                             ),
-                            const SizedBox(height: 32,),
-                            const _TransactionCategory()
+                            const SizedBox(
+                              height: 32,
+                            ),
+                            _TransactionCategory(
+                              transactions: model.transactions,
+                            ),
+                            const SizedBox(
+                              height: 16.36,
+                            )
                           ],
                         )),
                   ],
@@ -293,7 +302,9 @@ class _AtmCardCarouselState extends State<_AtmCardCarousel> {
 }
 
 class _TransactionCategory extends StatelessWidget {
-  const _TransactionCategory({Key? key}) : super(key: key);
+  const _TransactionCategory({Key? key, required this.transactions})
+      : super(key: key);
+  final List<Transaction> transactions;
 
   @override
   Widget build(BuildContext context) {
@@ -316,50 +327,61 @@ class _TransactionCategory extends StatelessWidget {
         const SizedBox(
           height: 16,
         ),
-/*
         ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(
-              amount: Asset.demoAssets[index].getAssetAmount,
-              detailTitle: Asset.demoAssets[index].assetName,
-              detailSubtitle: Asset.demoAssets[index].assetCategory.name,
-              leadingWidget: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                          offset: Offset(2, -2),
-                          blurRadius: 4,
-                          inset: true,
-                          color: Colors.black.withOpacity(.25)),
-                      BoxShadow(
-                          offset: Offset(-2, 2),
-                          blurRadius: 4,
-                          inset: true,
-                          color: Colors.white.withOpacity(.25))
+                  amount: transactions[index].transactionType ==
+                          TransactionType.debit
+                      ? '-${transactions[index].getTransactionAmount}'
+                      : transactions[index].getTransactionAmount,
+                  detailTitle: transactions[index].name,
+                  detailSubtitle:
+                      '${transactions[index].dateTime.hour} : ${transactions[index].dateTime.minute} ${transactions[index].getMeridian}',
+                  leadingWidget: Stack(
+                    children: [
+                      CustomPaint(
+                        size: const Size(38, 38),
+                        painter: CalendarPaint(
+                            gradientColors: transactions[index].solidColor),
+                      ),
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(13),
+                            bottomLeft: Radius.circular(13)),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 37, sigmaY: 37),
+                          child: CustomPaint(
+                            size: const Size(38, 38),
+                            painter: CalendarPaint(
+                                gradientColors:
+                                    transactions[index].gradientColors),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 38,
+                        width: 38,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(transactions[index].dateTime.day.toString(),
+                                style: AppTextStyles.subHeadlineBold().copyWith(color: AppColors.tertiaryColor1)),
+                            Text(
+                              transactions[index].getMonth,
+                              style: AppTextStyles.subHeadlineRegular().copyWith(color: AppColors.tertiaryColor1),
+                            )
+                          ],
+                        ),
+                      )
                     ],
-                    gradient: LinearGradient(
-                        colors: [
-                          const Color(0xFF9EB5DA).withOpacity(1),
-                          const Color(0xFFEEAB97).withOpacity(.1)
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight)),
-                child: Center(
-                    child: Icon(
-                      Asset.demoAssets[index].assetIcon,
-                      color: AppColors.tertiaryColor1,
-                    )),
-              ),
-            ),
+                  ),
+                ),
             separatorBuilder: (ctx, i) => const SizedBox(
-              height: 12,
-            ),
-            itemCount: Asset.demoAssets.length)
-*/
+                  height: 12,
+                ),
+            itemCount: transactions.length)
       ],
     );
   }
