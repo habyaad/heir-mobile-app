@@ -14,7 +14,7 @@ class CardScreenModel extends BaseViewModel {
     const ActionButtons(
         icon: HeirAppIcons.iconoir_scan_qr_code, actionText: 'QR Scan'),
   ];
-  List<Transaction> transactions = [transaction1, transaction2, transaction3];
+  static List<Transaction> transactions = [transaction1, transaction2, transaction3, transaction4];
   static Transaction transaction1 = Transaction(
       name: 'Olawale Murphy',
       transactionAmount: 76000,
@@ -55,5 +55,19 @@ class CardScreenModel extends BaseViewModel {
       solidColor: [
         const Color(0xffFEF1EE),
         const Color(0xffFEF1EE)
+      ]);
+
+  static Transaction transaction4 = Transaction(
+      name: 'Grocery',
+      transactionAmount: 43000,
+      dateTime: DateTime.utc(2022, 03, 20, 12, 23),
+      transactionType: TransactionType.debit,
+      gradientColors: [
+        const Color(0xffFBFCFC),
+        const Color(0xffFFFFFF).withOpacity(.1),
+      ],
+      solidColor: [
+        const Color(0xffEFF8E9),
+        const Color(0xffEFF8E9)
       ]);
 }

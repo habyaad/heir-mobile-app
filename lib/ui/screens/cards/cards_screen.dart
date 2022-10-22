@@ -112,7 +112,7 @@ class CardScreen extends StatelessWidget {
                               height: 32,
                             ),
                             _TransactionCategory(
-                              transactions: model.transactions,
+                              transactions: CardScreenModel.transactions,
                             ),
                             const SizedBox(
                               height: 16.36,
