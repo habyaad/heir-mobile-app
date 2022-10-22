@@ -3,10 +3,10 @@ import 'dart:math';
 
 import '../../screens/statistics/statistics_model.dart';
 
-class StatisticsPaint extends CustomPainter {
+class AssetStatisticsPaint extends CustomPainter {
   final List<Stats> stats;
 
-  StatisticsPaint(this.stats);
+  AssetStatisticsPaint(this.stats);
 
   @override
   void paint(Canvas canvas, Size size) {
