@@ -12,6 +12,7 @@ class AssetStatistics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: Alignment.center,
       children: [
         CustomPaint(
           painter: AssetStatisticsPaint(model.stats),
