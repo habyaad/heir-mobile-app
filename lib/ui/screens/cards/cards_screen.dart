@@ -331,10 +331,13 @@ class _TransactionCategory extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(
-                  amount: transactions[index].transactionType ==
-                          TransactionType.debit
-                      ? '-${transactions[index].getTransactionAmount}'
-                      : transactions[index].getTransactionAmount,
+                  trailingWidget: Text(
+                    transactions[index].transactionType == TransactionType.debit
+                        ? '-${transactions[index].getTransactionAmount}'
+                        : transactions[index].getTransactionAmount,
+                    style: AppTextStyles.headlineRegular()
+                        .copyWith(color: AppColors.tertiaryColor1),
+                  ),
                   detailTitle: transactions[index].name,
                   detailSubtitle:
                       '${transactions[index].dateTime.hour} : ${transactions[index].dateTime.minute} ${transactions[index].getMeridian}',
@@ -367,10 +370,12 @@ class _TransactionCategory extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(transactions[index].dateTime.day.toString(),
-                                style: AppTextStyles.subHeadlineBold().copyWith(color: AppColors.tertiaryColor1)),
+                                style: AppTextStyles.subHeadlineBold()
+                                    .copyWith(color: AppColors.tertiaryColor1)),
                             Text(
                               transactions[index].getMonth,
-                              style: AppTextStyles.subHeadlineRegular().copyWith(color: AppColors.tertiaryColor1),
+                              style: AppTextStyles.subHeadlineRegular()
+                                  .copyWith(color: AppColors.tertiaryColor1),
                             )
                           ],
                         ),

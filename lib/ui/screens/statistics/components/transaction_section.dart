@@ -28,7 +28,11 @@ class TransactionSection extends StatelessWidget {
               'History',
               style: AppTextStyles.title1Medium(),
             ),
-            const Icon(Icons.search, size: 16, color: AppColors.tertiaryColor2,)
+            const Icon(
+              Icons.search,
+              size: 16,
+              color: AppColors.tertiaryColor2,
+            )
           ],
         ),
         const SizedBox(
@@ -38,59 +42,63 @@ class TransactionSection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(
-              amount: transactions[index].transactionType ==
-                  TransactionType.debit
-                  ? '-${transactions[index].getTransactionAmount}'
-                  : transactions[index].getTransactionAmount,
-              detailTitle: transactions[index].name,
-              detailSubtitle:
-              '${transactions[index].dateTime.hour} : ${transactions[index].dateTime.minute} ${transactions[index].getMeridian}',
-              leadingWidget: Stack(
-                children: [
-                  CustomPaint(
-                    size: const Size(38, 38),
-                    painter: CalendarPaint(
-                        gradientColors: transactions[index].solidColor),
+                  trailingWidget: Text(
+                    transactions[index].transactionType == TransactionType.debit
+                        ? '-${transactions[index].getTransactionAmount}'
+                        : transactions[index].getTransactionAmount,
+                    style: AppTextStyles.headlineRegular()
+                        .copyWith(color: AppColors.tertiaryColor1),
                   ),
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(13),
-                        bottomLeft: Radius.circular(13)),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 37, sigmaY: 37),
-                      child: CustomPaint(
+                  detailTitle: transactions[index].name,
+                  detailSubtitle:
+                      '${transactions[index].dateTime.hour} : ${transactions[index].dateTime.minute} ${transactions[index].getMeridian}',
+                  leadingWidget: Stack(
+                    children: [
+                      CustomPaint(
                         size: const Size(38, 38),
                         painter: CalendarPaint(
-                            gradientColors:
-                            transactions[index].gradientColors),
+                            gradientColors: transactions[index].solidColor),
                       ),
-                    ),
+                      ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(13),
+                            bottomLeft: Radius.circular(13)),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 37, sigmaY: 37),
+                          child: CustomPaint(
+                            size: const Size(38, 38),
+                            painter: CalendarPaint(
+                                gradientColors:
+                                    transactions[index].gradientColors),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 38,
+                        width: 38,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(transactions[index].dateTime.day.toString(),
+                                style: AppTextStyles.subHeadlineBold()
+                                    .copyWith(color: AppColors.tertiaryColor1)),
+                            Text(
+                              transactions[index].getMonth,
+                              style: AppTextStyles.subHeadlineRegular()
+                                  .copyWith(color: AppColors.tertiaryColor1),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: 38,
-                    width: 38,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(transactions[index].dateTime.day.toString(),
-                            style: AppTextStyles.subHeadlineBold().copyWith(color: AppColors.tertiaryColor1)),
-                        Text(
-                          transactions[index].getMonth,
-                          style: AppTextStyles.subHeadlineRegular().copyWith(color: AppColors.tertiaryColor1),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
+                ),
             separatorBuilder: (ctx, i) => const SizedBox(
-              height: 12,
-            ),
+                  height: 12,
+                ),
             itemCount: transactions.length)
       ]),
     );
   }
 }
-

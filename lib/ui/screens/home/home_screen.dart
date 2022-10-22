@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Text(User.demoUser.name,
+                                  Text(User.demoUser.firstName,
                                       style: AppTextStyles.title1Medium()),
                                   const SizedBox(
                                     width: 3,
@@ -257,7 +257,11 @@ class _TopAssetCategory extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(
-                  amount: Asset.demoAssets[index].getAssetAmount,
+                  trailingWidget: Text(
+                    Asset.demoAssets[index].getAssetAmount,
+                    style: AppTextStyles.headlineRegular()
+                        .copyWith(color: AppColors.tertiaryColor1),
+                  ),
                   detailTitle: Asset.demoAssets[index].assetName,
                   detailSubtitle: Asset.demoAssets[index].assetCategory.name,
                   leadingWidget: Container(

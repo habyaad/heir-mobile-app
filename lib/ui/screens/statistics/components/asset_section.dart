@@ -119,43 +119,47 @@ class _AssetSection extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(
-              amount: assetList[index].getAssetAmount,
-              detailTitle: assetList[index].assetName,
-              detailSubtitle: assetList[index].assetCategory.name,
-              leadingWidget: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                          offset: const Offset(2, -2),
-                          blurRadius: 4,
-                          inset: true,
-                          color: Colors.black.withOpacity(.25)),
-                      BoxShadow(
-                          offset: const Offset(-2, 2),
-                          blurRadius: 4,
-                          inset: true,
-                          color: Colors.white.withOpacity(.25))
-                    ],
-                    gradient: LinearGradient(
-                        colors: [
-                          const Color(0xFF9EB5DA).withOpacity(1),
-                          const Color(0xFFEEAB97).withOpacity(.1)
+                  trailingWidget: Text(
+                    assetList[index].getAssetAmount,
+                    style: AppTextStyles.headlineRegular()
+                        .copyWith(color: AppColors.tertiaryColor1),
+                  ),
+                  detailTitle: assetList[index].assetName,
+                  detailSubtitle: assetList[index].assetCategory.name,
+                  leadingWidget: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                              offset: const Offset(2, -2),
+                              blurRadius: 4,
+                              inset: true,
+                              color: Colors.black.withOpacity(.25)),
+                          BoxShadow(
+                              offset: const Offset(-2, 2),
+                              blurRadius: 4,
+                              inset: true,
+                              color: Colors.white.withOpacity(.25))
                         ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight)),
-                child: Center(
-                    child: Icon(
+                        gradient: LinearGradient(
+                            colors: [
+                              const Color(0xFF9EB5DA).withOpacity(1),
+                              const Color(0xFFEEAB97).withOpacity(.1)
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight)),
+                    child: Center(
+                        child: Icon(
                       Asset.demoAssets[index].assetIcon,
                       color: AppColors.tertiaryColor1,
                     )),
-              ),
-            ),
+                  ),
+                ),
             separatorBuilder: (ctx, i) => const SizedBox(
-              height: 12,
-            ),
+                  height: 12,
+                ),
             itemCount: assetList.length)
       ],
     );

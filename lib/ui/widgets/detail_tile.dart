@@ -5,14 +5,14 @@ import '../../heir_app_icons_icons.dart';
 import '../../utils/app_colors.dart';
 
 class DetailTile extends StatelessWidget {
-  final String amount;
+  final Widget trailingWidget;
   final String detailTitle;
   final String detailSubtitle;
   final Widget leadingWidget;
 
   const DetailTile({
     Key? key,
-    required this.amount,
+    required this.trailingWidget,
     required this.detailTitle,
     required this.detailSubtitle,
     required this.leadingWidget,
@@ -60,11 +60,7 @@ class DetailTile extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            amount,
-            style: AppTextStyles.headlineRegular()
-                .copyWith(color: AppColors.tertiaryColor1),
-          )
+          trailingWidget
         ],
       ),
     );
