@@ -1,5 +1,6 @@
 import '../../ui/screens/cards/cards_screen.dart';
 import '../../ui/screens/home/home_screen.dart';
+import '../../ui/screens/settings/components/beneficiaries/beneficiaries_screen.dart';
 import '../../ui/screens/settings/settings_screen.dart';
 import '../../ui/screens/statistics/statistics_screen.dart';
 import 'package:auto_route/annotations.dart';
@@ -12,6 +13,8 @@ import 'package:auto_route/annotations.dart';
     AutoRoute(page: CardScreen),
     AutoRoute(page: StatisticsScreen),
     AutoRoute(page: SettingsScreen),
+    AutoRoute(page: BeneficiariesScreen),
+
   ],
 )
 class $AppRouter {}
