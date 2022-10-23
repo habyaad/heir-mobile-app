@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
 import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
 import 'package:heir/ui/screens/settings/settings_model.dart';
@@ -97,8 +98,13 @@ class SettingsScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              const Icon(HeirAppIcons.fi_rr_sign_out, color: Color(0xffE33A24),),
-                              const SizedBox(width: 16,),
+                              const Icon(
+                                HeirAppIcons.fi_rr_sign_out,
+                                color: Color(0xffE33A24),
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
                               Text(
                                 'Sign Out',
                                 style: AppTextStyles.title2Regular()
@@ -128,18 +134,26 @@ class _OptionMenu extends StatelessWidget {
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => DetailTile(
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios_sharp,
-              size: 24,
-              color: AppColors.tertiaryColor2,
+        itemBuilder: (context, index) => GestureDetector(
+              onTap: () {
+                model.menuList[index].routeName != null
+                    ? context.router
+                        .pushNamed('/${model.menuList[index].routeName.toString()}')
+                    : null;
+              },
+              child: DetailTile(
+                  trailingWidget: const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 24,
+                    color: AppColors.tertiaryColor2,
+                  ),
+                  detailTitle: model.menuList[index].title,
+                  detailSubtitle: model.menuList[index].subtitle,
+                  leadingWidget: _OptionLeadingWidget(
+                    color: model.menuList[index].color,
+                    icon: model.menuList[index].icon,
+                  )),
             ),
-            detailTitle: model.menuList[index].title,
-            detailSubtitle: model.menuList[index].subtitle,
-            leadingWidget: _OptionLeadingWidget(
-              color: model.menuList[index].color,
-              icon: model.menuList[index].icon,
-            )),
         separatorBuilder: (ctx, i) => const SizedBox(
               height: 12,
             ),
