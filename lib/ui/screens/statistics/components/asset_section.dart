@@ -115,7 +115,9 @@ class _AssetSection extends StatelessWidget {
             )
           ],
         ),
+        const SizedBox(height: 16,),
         ListView.separated(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(

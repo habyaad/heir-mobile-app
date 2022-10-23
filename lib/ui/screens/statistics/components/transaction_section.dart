@@ -39,6 +39,7 @@ class TransactionSection extends StatelessWidget {
           height: 16,
         ),
         ListView.separated(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => DetailTile(
