@@ -118,6 +118,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+//TODO: implement the visibility toggler on the atm card
 class _NetWorthCard extends StatelessWidget {
   const _NetWorthCard({Key? key}) : super(key: key);
 
