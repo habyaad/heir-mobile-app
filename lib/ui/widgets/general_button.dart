@@ -8,6 +8,8 @@ class GeneralButton extends StatelessWidget {
   final String buttonText;
   final bool hasShadow;
   final Color buttonColor;
+  final double width;
+  final double height;
   final Color textColor;
   final Border? border;
 
@@ -17,18 +19,20 @@ class GeneralButton extends StatelessWidget {
       this.hasShadow = true,
       this.buttonColor = AppColors.primaryColor1,
       this.textColor = Colors.white,
+      this.width = 175,
+      this.height = 60,
       this.border})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 175,
-      height: 60,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: buttonColor,
-          border: border?? border,
+          border: border ?? border,
           boxShadow: hasShadow
               ? [
                   BoxShadow(
