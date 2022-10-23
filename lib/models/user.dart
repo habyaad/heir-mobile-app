@@ -1,7 +1,9 @@
 import 'package:money_formatter/money_formatter.dart';
 
 class User {
-  final String name;
+  final String firstName;
+  final String lastName;
+  final String email;
   final double assetValue;
   final double cardBalance;
 
@@ -26,13 +28,17 @@ class User {
           .output
           .nonSymbol;
 
-  User({required this.name,
+  User({required this.firstName,
+    required this.lastName,
+    required this.email,
     required this.assetValue,
     required this.cardBalance,
   });
 
   static User demoUser =
-  User(name: 'Olanrewaju',
+  User(firstName: 'Olanrewaju',
+    lastName: 'Adekoya',
+    email: 'adeolanre@heir.com',
     assetValue: 12076065.78,
     cardBalance: 3511400,
   );
