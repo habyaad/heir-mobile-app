@@ -1,6 +1,6 @@
-# heir
+# Heir mobile app
 
-A wallet app,
+A wallet app for both bank and cryptocurrency.
 
 ## Screenshots
 
@@ -28,4 +28,9 @@ A wallet app,
 ### beneficiary screen
 ![Screenshot_20221106-142220](https://user-images.githubusercontent.com/66385365/200178163-fe0c8812-f175-4c87-a1b6-bf7a7a1ec72b.jpg)
 
-
+## UI designer 
+Name: Olaleye Ibrahim
+Email: olaleyeiyb1@gmail.com
+Website: www.theiyb.com
+About: An open-minded designer committed to a high standard of accessibility, usability, and aesthetically pleasing designs informed by research.
+Also passionate about the digital ecosystem and innovative solutions focused on user needs and business goals.
