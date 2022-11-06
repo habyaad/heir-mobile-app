@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../../utils/app_colors.dart';
+import '../../../../../utils/app_router/app_router.gr.dart';
 import '../../../../../utils/app_text_styles.dart';
 import '../../../../widgets/detail_tile.dart';
 import '../../../../widgets/general_button.dart';
@@ -133,11 +134,8 @@ class _BeneficiarySection extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) => GestureDetector(
             onTap: () {
-              /*model.menuList[index].routeName != null
-                      ? context.router
-                      .pushNamed(
-                      '/${model.menuList[index].routeName.toString()}')
-                      : null;*/
+              context.router.push(BeneficiaryRoute(
+                  beneficiary: Beneficiary.beneficiaryList[index]));
             },
             child: DetailTile(
                 trailingWidget: const Icon(
