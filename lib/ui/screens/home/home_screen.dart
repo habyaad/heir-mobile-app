@@ -82,7 +82,9 @@ class HomeScreen extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      const _NetWorthCard(),
+                      _NetWorthCard(
+                        model: model,
+                      ),
                       const SizedBox(
                         height: 16,
                       ),
@@ -118,9 +120,9 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-//TODO: implement the visibility toggler on the atm card
 class _NetWorthCard extends StatelessWidget {
-  const _NetWorthCard({Key? key}) : super(key: key);
+  const _NetWorthCard({Key? key, required this.model}) : super(key: key);
+  final HomeScreenModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -176,17 +178,27 @@ class _NetWorthCard extends StatelessWidget {
                   const SizedBox(
                     width: 7,
                   ),
-                  const Icon(
-                    Icons.visibility_off_outlined,
-                    color: Colors.white,
-                    size: 12,
+                  GestureDetector(
+                    onTap: () {
+                      model.switchVisibility();
+                    },
+                    child: Icon(
+                      model.amountIsVisible
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   )
                 ],
               ),
               const SizedBox(
                 height: 5,
               ),
-              Text('€${User.demoUser.getTotalWorth}',
+              Text(
+                  model.amountIsVisible
+                      ? '€${User.demoUser.getTotalWorth}'
+                      : model.obscureText,
                   style: AppTextStyles.ocrTextStyle().copyWith(fontSize: 28)),
               const Spacer(),
               Row(
@@ -201,7 +213,10 @@ class _NetWorthCard extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text('€${User.demoUser.getAssetValue}',
+                      Text(
+                          model.amountIsVisible
+                              ? '€${User.demoUser.getAssetValue}'
+                              : model.obscureText,
                           style: AppTextStyles.ocrTextStyle()
                               .copyWith(fontSize: 18))
                     ],
@@ -215,7 +230,10 @@ class _NetWorthCard extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text('€${User.demoUser.getCardBalance}',
+                      Text(
+                          model.amountIsVisible
+                              ? '€${User.demoUser.getCardBalance}'
+                              : model.obscureText,
                           style: AppTextStyles.ocrTextStyle()
                               .copyWith(fontSize: 18))
                     ],
